@@ -69,9 +69,23 @@ class App extends React.Component {
       const weatherData = await weatherRes.json();
       this.setState({ weather: weatherData.daily });
     } catch (err) {
-      console.err(err);
+      console.error(err);
     } finally {
       this.setState({ isLoading: false });
+    }
+  }
+
+  setLocation = (e) => this.setState({ location: e.target.value });
+
+  //similar to useEffect with empty dependency array []
+  componentDidMount() { 
+    this.fetchWeather();
+  }
+
+  //similar to useEffect wit this array [location]
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.location !== prevState.location) {
+      this.fetchWeather();
     }
   }
 
@@ -80,8 +94,9 @@ class App extends React.Component {
       <div className="app">
         <h1>Classy Weather</h1>
         <Input
-          location={location}
-          
+          location={this.state.location}
+          onChangeLocation={this.setLocation}
+
         />
         <button onClick={this.fetchWeather}>Get weather</button>
         {this.state.isLoading && <p className="loader">Loading...</p>}
@@ -105,8 +120,8 @@ class Input extends React.Component {
         <input
           type="text"
           placeholder="Search for location..."
-          value={this.state.location}
-          onChange={e => this.setState({ location: e.target.value })}
+          value={this.props.location}
+          onChange={this.props.onChangeLocation}
         />
       </div>
     );
