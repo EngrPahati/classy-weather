@@ -37,14 +37,17 @@ function formatDay(dateStr) {
 class App extends React.Component {
   
   state = {
-    location: "manila",
+    location: "",
     isLoading: false,
     displayLocation: '',
     weather: {}
   };
 
+
   // async fetchWeather() {
   fetchWeather = async () => {
+    if (this.state.location.length < 2) return;
+  
     try {
       this.setState({ isLoading: true });
 
@@ -79,7 +82,7 @@ class App extends React.Component {
 
   //similar to useEffect with empty dependency array []
   componentDidMount() { 
-    this.fetchWeather();
+    // this.fetchWeather();
   }
 
   //similar to useEffect wit this array [location]
