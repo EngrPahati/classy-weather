@@ -83,12 +83,16 @@ class App extends React.Component {
   //similar to useEffect with empty dependency array []
   componentDidMount() { 
     // this.fetchWeather();
+    //get the data from the localstorage
+    this.setState({location: localStorage.getItem('location') || ""})
   }
 
   //similar to useEffect wit this array [location]
   componentDidUpdate(prevProps, prevState) {
     if (this.state.location !== prevState.location) {
       this.fetchWeather();
+      //store data in to localstorage
+      localStorage.setItem('location', this.state.location)
     }
   }
 
